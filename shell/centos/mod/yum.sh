@@ -1,6 +1,12 @@
 #!bin/bash
 
-AcYumInstallList="yum-fastestmirror yum-priorities lsb_release zip unzip wget vim-enhanced at ntp sysstat vim-enhanced gcc gcc-c++ flex bison autoconf automake bzip2-devel ncurses-devel libjpeg-devel libpng-devel libtiff-devel freetype-devel pam-devel curl curl-devel patch make libtool gettext-devel mlocate zlib zlib-devel compat-libstdc* libxml2 libxml2-devel openssl-devel e2fsprogs-devel krb5-devel libidn-devel *g77 libmhash libmhash-devel irqbalance"
+AcYumList="yum-fastestmirror yum-priorities lsb_release zip unzip wget vim-enhanced at ntp sysstat vim-enhanced gcc gcc-c++ flex bison autoconf automake bzip2-devel ncurses-devel libjpeg-devel libpng-devel libtiff-devel freetype-devel pam-devel curl curl-devel patch make libtool gettext-devel mlocate zlib zlib-devel compat-libstdc* libxml2 libxml2-devel openssl-devel e2fsprogs-devel krb5-devel libidn-devel *g77 libmhash libmhash-devel irqbalance"
+
+AcYumNginx="nginx"
+
+AcYumMySql="mysql-server mysql"
+
+AcYumPHP="php php-common php-mysql php-cli php-fpm php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-soap php-eaccelerator libxml2-devel libmcrypt libmcrypt-devel openssl-devel curl-devel libjpeg-devel libpng-devel freetype freetype-devel openldap-devel libmhash-devel mysql-devel libtool-ltdl libtool-ltdl-devel"
 
 AcRpmForge32="http://acshell.googlecode.com/svn/trunk/data/yum/repo/rpmforge/32/rpmforge.zip"
 AcRpmForge64="http://acshell.googlecode.com/svn/trunk/data/yum/repo/rpmforge/64/rpmforge.zip"
@@ -31,10 +37,12 @@ cat << END
  增加 yum 源 及升级常用软件
 ---------------------------------------------------------
 	0. 回到上级菜单
-        1. 添加 epel 源
-	2. 添加 rpmforge 源
+        1. 添加 epel remi 源
+	2. 添加 epel 源
 	3. 添加 remi 源
+	4. 添加 rpmforge 源
 	10. 更新常用软件
+	11. 安装 nginx php mysql
 	00. 退出 
 ---------------------------------------------------------
         author:anjoecai mail:anjoecai@gmail.com 
@@ -48,13 +56,18 @@ END
 		showMainMenu
 		return
         elif [ 1 = $mId ]; then
-		addRepoEPEL
+                addRepoEPEL
+		addRepoRemi
 	elif [ 2 = $mId ]; then
-		addRepoRpmforge
+		addRepoEPEL
 	elif [ 3 = $mId ]; then
-		addRepoRemi 
+                addRepoRemi
+	elif [ 4 = $mId ]; then
+		addRepoRpmforge
         elif [ 10 = $mId ]; then
                 yumUpdate
+	elif [ 11 = $mId ]; then
+                yumInstallNMP
 	elif [ 00 = $mId ]; then
                 exit
         else
@@ -68,7 +81,14 @@ END
 function yumUpdate()
 {
 	yum -y update
-	yum install -y $AcYumInstallList
+	yum install -y $AcYumList
+}
+
+function yumInstallNMP()
+{
+	yum install -y --skip-broken $AcYumNginx
+	yum install -y --skip-broken $AcYumMySql
+	yum install -y --skip-broken $AcYumPHP
 }
 
 function addRepoRpmforge()
