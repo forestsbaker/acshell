@@ -10,8 +10,19 @@ clear
 cat << END
 
 ---------------------------------------------------------
-	1. 增加 yum 源 及升级常用软件
-	2. Web服务器
+	1. yum 源管理与优化
+	2. Web 服务
+	3. Db 服务
+	4. Ftp 服务
+	5. Mail 服务
+	6. Common 服务 
+	7. CacheProxy 服务 
+	8. HttpProxy 服务 
+	9. 监控 服务 
+	10. Search 服务 
+	11. 安全 优化 
+	12. 常用工具 优化
+	13. 系统 优化
 	00. 退出
 ---------------------------------------------------------
 	author:anjoecai mail:anjoecai@gmail.com 
@@ -23,6 +34,9 @@ END
 	if [ 1 = $mId ]; then
 		source ${AcCentosModDir}/yum.sh
 		showYumMenu
+	elif [ 4 = $mId ]; then
+		source ${AcCentosModDir}/ftp.sh
+                showFtpMenu
 	elif [ 00 = $mId ]; then
 		exit
 	else
