@@ -1,23 +1,23 @@
 #!bin/bash
 
 # 用户登录根目录
-ftpUserHome=/data/test/
+ftpUserHome=/usr/share/nginx/html/
 
 # 用户名
-ftpUserName=anjoe
+ftpUserName=juna
 
 # 用户ID
-ftpUserId=5000
+ftpUserId=498
 
 # FTP 用户组
 uFtpGroup=ftpuser
 
 # FTP 用户组ID
-uFtpGroupId=5000
+uFtpGroupId=498
 
 #创建组
-./ftpasswd --group --name $uFtpGroup --file /etc/ftpd.group --gid $uFtpGroupId --member $ftpUserName	
+#./ftpasswd --group --name=$uFtpGroup --file=/etc/ftpd.group --gid $uFtpGroupId --member $ftpUserName	
 
 #创建用户
-./ftpasswd --passwd --name $ftpUserName --file /etc/ftpd.passwd --uid $ftpUserId --gid $uFtpGroupId --home $ftpUserHome --shell /bin/false
+./ftpasswd --passwd --name=$ftpUserName --file=/etc/ftpd.passwd --uid=$ftpUserId --gid=$uFtpGroupId --home=$ftpUserHome --shell=/sbin/nologin
 
